@@ -1,5 +1,6 @@
 import 'express-async-errors';
 import mongoose from "mongoose";
+import {NotFoundError, errorHandler } from "@bk_tickets/common";
 
 import { app } from './app';
 
@@ -7,9 +8,6 @@ import { currentUserRouter } from './routes/current-user';
 import { signoutRouter } from './routes/signout';
 import { signInRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
-
-import { errorHandler } from "./middlewares/error-handler";
-import {NotFoundError} from "./errors/not-found-error";
 
 
 app.use(currentUserRouter);

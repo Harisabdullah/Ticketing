@@ -1,9 +1,8 @@
 import express, {Request, Response} from "express";
 import {body} from "express-validator";
 
-import {validateRequest} from "../middlewares/validate-request";
 import {User} from "../models/user";
-import {BadRequestError} from "../errors/bad-request-error";
+import {BadRequestError, validateRequest} from "@bk_tickets/common";
 import {Password} from "../services/password";
 import jwt from "jsonwebtoken";
 
@@ -25,6 +24,7 @@ router.post('/api/users/signin',
         const { email, password} = req.body;
 
         const existingUser = await User.findOne({ email });
+
         if (!existingUser){
             throw new BadRequestError('Invalid credentials');
         }
