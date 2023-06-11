@@ -1,0 +1,27 @@
+// Google Cloud
+1. Download Google cloud sdk by following the quickstart guide here: https://cloud.google.com/sdk/docs/quickstarts
+2. Get the credentials file from the google cloud console and place it in the root directory of the project using gcloud container clusters get-credentials ticketing-dev
+3. The above command will create a kubeconfig file in the root directory of the project. This file is used by kubectl to connect to the cluster.
+4. This will change the context of kubectl to the cluster you just created. You can check this by running kubectl config current-context.
+
+// Configure Skaffold
+1. Update the skaffold.yaml file
+   Add the following code to the skaffold.yaml file
+```    local:
+           push: false
+       googleCloudBuild:
+           projectId: ticketing-dev-388414  // Project ID from the google cloud console
+       artifacts:
+           - image: us.gcr.io/ticketing-dev-388414/auth
+
+
+// Setup Ingress-Nginx
+1. Install ingress-nginx by running the following command
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.0/deploy/static/provider/cloud/deploy.yaml
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.0/deploy/static/provider/cloud/deploy.yaml
+   namespace/ingress-nginx unchanged
+// Do not forget to define JWT_KEY in the kubernetes secret
+1. kubectl create secret generic jwt-secret --from-literal=JWT_KEY=<JWT_SECRET_VALUE>
+
+
+Skaffold dev

@@ -1,0 +1,54 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+    kubectl:
+        manifests:
+            - ./infra/k8s/*
+build:
+#    Changes to googleCloudBuild
+#    googleCloudBuild:
+#        projectId: ticketing-dev-388414 // id from google console
+#    artifacts:
+#        - image: us.gcr.io/ticketing-dev-388414/auth
+    local:
+        push: false
+    artifacts:
+        - image: backescape/auth
+          context: auth
+          docker:
+              dockerfile: Dockerfile
+          sync:
+              manual:
+                  - src: 'src/**/*.ts'
+                    dest: .
+                  - src: './package.json'
+                    dest: .
+
+
+        - image: backescape/tickets
+          context: tickets
+          docker:
+              dockerfile: Dockerfile
+          sync:
+              manual:
+                  - src: 'src/**/*.ts'
+                    dest: .
+                  - src: './package.json'
+                    dest: .
+
+
+
+        - image: backescape/client
+          context: client
+          docker:
+              dockerfile: Dockerfile
+          sync:
+              manual:
+                  - src: '**/*.js'
+                    dest: .
+                  - src: './package.json'
+                    dest: .
+
+
+
+
