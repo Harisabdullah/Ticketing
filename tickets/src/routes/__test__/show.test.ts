@@ -1,6 +1,5 @@
 import request from "supertest";
 import { app } from "../../app"
-import exp from "constants";
 
 it('returns a ticket if the ticket is found', async () => {
     const title = 'Concert';
